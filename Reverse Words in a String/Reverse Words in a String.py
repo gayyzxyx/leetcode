@@ -3,6 +3,7 @@
 class Solution:
     # @param s, a string
     # @return a string
+    #需要考虑空字符串如" "应该输出"",还有当中间隔有多个空格，应该输出为一个空格
     def reverseWords(self, s):
         s_array = s.split(" ")
         s_reverse = ""
