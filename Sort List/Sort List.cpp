@@ -29,8 +29,12 @@ public:
 		return p;
 	}
 
-	void qsort(ListNode *he
-		)
+	void qsort(ListNode *head, ListNode *end) {
+		if(head != end) {
+			ListNode *piovt = sortList(head);
+			
+		}
+	}
 	void swap(int &a, int &b) {
 		int temp = a;
 		b = a;
