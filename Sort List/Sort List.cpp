@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
 struct ListNode {
 	int val;
 	ListNode *next;
@@ -10,36 +9,51 @@ struct ListNode {
 
 class Solution {
 public:
-	ListNode *sortList(ListNode *head) {
+
+	ListNode *sortList(ListNode *head) {	
 		if(head == NULL || head->next == NULL) {
 			return head;
 		}
+		ListNode *p = head, *q = head, *pre = NULL;
+		while(q && q->next) {
+			pre = p;
+			p = p->next;
+			q = q->next->next;
+		}
+		pre->next = NULL;				
+		return mergeList(sortList(head), sortList(p));
+	}
 
-		ListNode* p = head;
-		ListNode* q = head->next;
-		int value = head->val;
-		while(q){
-			if(q->val < value) {
-				p = p->next;
-				swap(p->val, q->val);
+	ListNode *mergeList(ListNode *l, ListNode * r) {
+		ListNode *p1, *p2, *result;
+		if(l->val < r->val) {
+			p1 = l;
+			p2 = r;			
+		} else {
+			p1 = r;
+			p2 = l;
+
+		}
+		result = p1;
+		ListNode * pre;
+		while(p1 && p2) {
+			if(p1->val <= p2->val) {
+				pre = p1;
+				p1 = p1->next;
+			} else {
+				pre->next = p2;
+				p2 = p2->next;
+				pre = pre->next;
+				pre->next = p1;
 			}
-			q = q->next;
 		}
-		swap(p->val, value);
-		return p;
+		if(p2) {
+			pre->next = p2;
+		}
+		return result;
 	}
+	
 
-	void qsort(ListNode *head, ListNode *end) {
-		if(head != end) {
-			ListNode *piovt = sortList(head);
-			
-		}
-	}
-	void swap(int &a, int &b) {
-		int temp = a;
-		b = a;
-		a = temp;
-	}
 };
 
 ListNode *createList(int a[], int n) {
@@ -60,6 +74,7 @@ void printList(ListNode *a) {
 		printf("%d ", a->val);
 		a = a->next;
 	}
+	printf("\n");
 }
 
 int main() {
@@ -68,6 +83,13 @@ int main() {
 	for(int i = 0; i<10; i++) {
 		a[i] =  rand()%10+1;
 	}
-	ListNode *p = createList(a, 10);
+	Solution s;
+	ListNode *p = createList(a, 10); 
 	printList(p);
+	ListNode *end;
+	ListNode *q = s.sortList(p);
+	printList(q);
+	int b = 2, c = 3;
+	printf("%d, %d", b, c);
+
 }
